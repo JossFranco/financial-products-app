@@ -1,1 +1,39 @@
-<p>product-list works!</p>
+<app-header></app-header>
+<div class="products-container">
+  <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
+  <table class="products-table">
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del producto</th>
+        <th>Descripción</th>
+        <th>Fecha de liberación</th>
+        <th>Fecha de reestructuración</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of productsFiltered">
+        <td><img [src]="product.logo" alt="Logo" class="product-logo" /></td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.date_release }}</td>
+        <td>{{ product.date_revision }}</td>
+        <td>
+          <div
+            class="dropdown"
+            [class.open]="isMenuOpen"
+            (click)="toggleMenu()"
+          >
+            <span class="material-symbols-outlined">more_vert</span>
+            <ul class="dropdown-menu" *ngIf="isMenuOpen">
+              <a (click)="editProduct(product)">Editar</a>
+              <br />
+              <a (click)="deleteProduct(product)">Eliminar</a>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

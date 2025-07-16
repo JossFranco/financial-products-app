@@ -1,20 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../../models/product.model';
+import { Product } from '../interfaces/product.interface';
 import { map, pipe, Observable } from 'rxjs';
+import { environment } from '../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private product  : Product[] = [];
-  private apiUrl = 'http://localhost:3002';
+  
+  private apiUrl = environment.apiUrl;
 
-  constructor( private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
     return this.http.get<{data:Product[]}>(`${this.apiUrl}/bp/products`)
-    .pipe( map(response => response.data)
+    .pipe(map(response => response.data)
   );
   }
   getProductById(id: string) {

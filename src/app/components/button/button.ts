@@ -9,7 +9,9 @@ selector: 'app-button',
   styleUrl: './button.scss'
 })
 export class ButtonComponent {
-  @Input() label: string = 'Botón';
+  @Input() label: string = '';
   @Input() icon: string = '';
   @Input() color: 'primary' | 'secondary' |'tertiary'| 'danger' = 'primary';
+
+
 }

@@ -1,0 +1,26 @@
+.productForm {
+  max-width: 400px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  &__title {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  &__field {
+    display: grid;
+
+    margin: 16px;
+    background-color: blue;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+}
+
+.error small {
+  color: red;
+}

@@ -10,16 +10,12 @@
   font-size: 14px;
   transition: background-color 0.2s ease-in-out;
 
-  .btn-icon {
-    font-size: 18px;
-  }
-
   &.primary {
     background-color: #f7f449;
     color: white;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: #e4f124;
     }
   }
 
@@ -29,14 +25,6 @@
 
     &:hover {
       background-color: #545b62;
-    }
-  }
-&.tertiary {
-    background-color: #0be9a3;
-    color: white;
-
-    &:hover {
-      background-color: #08ef5df5;
     }
   }
   &.danger {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
-import { ProductService } from '../../core/services/product.service';
+import { Product } from '../../interfaces/product.interface';
+import { ProductService } from '../../services/product.service';
 import { NgFor, NgIf  } from '@angular/common';
 
 @Component({
