@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ButtonComponent } from '../../components/button/button';
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.scss'
 })

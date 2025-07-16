@@ -1,4 +1,4 @@
-<form  class="productForm" (ngSubmit)="onSubmit()" novalidate>
+<form  [formGroup]="productForm" class="productForm" (ngSubmit)="onSubmit()" novalidate>
   <h2 class="productForm__title" >Formulario de Registro</h2>
 
   <div class="productForm__field">
@@ -42,7 +42,9 @@
   </div>
 
   <div class="productForm__buttons">
-    <app-button type="button" label="Reiniciar" onclick="onReset()"></app-button>
-    <app-button type="button" label="Enviar" onclick="onsubmit()"></app-button>
+
+    <button type="button" (click)="onReset()">Reiniciar</button>
+    <button type="button" (click)="onSubmit()">Enviar</button>
+
   </div>
 </form>

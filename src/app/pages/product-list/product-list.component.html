@@ -1,20 +1,35 @@
 <app-header></app-header>
 <div class="products-container">
-  <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
-  <table class="products-table">
+<div class="products-container__header">
+    <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
+    <button (click)=" addProduct()">Agregar</button>
+</div>
+  <table class="products-container__table">
     <thead>
       <tr>
         <th>Logo</th>
         <th>Nombre del producto</th>
-        <th>Descripción</th>
-        <th>Fecha de liberación</th>
-        <th>Fecha de reestructuración</th>
+
+        <th>Descripción
+          <span class="material-symbols-outlined">
+info
+</span>
+        </th>
+        <th>Fecha de liberación
+          <span class="material-symbols-outlined">
+info
+</span>
+        </th>
+        <th>Fecha de reestructuración<span class="material-symbols-outlined">
+info
+</span></th>
+        
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of productsFiltered">
-        <td><img [src]="product.logo" alt="Logo" class="product-logo" /></td>
+        <td><img [src]="product.logo" alt="Logo" class="products-container__logo" /></td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.date_release }}</td>
@@ -36,4 +51,14 @@
       </tr>
     </tbody>
   </table>
+  <div class="product-container__pagination">
+    <span class="pagination-info">
+      {{ productsFiltered.length }} Resultados</span>
+    <select [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage(itemsPerPage)">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+ 
+    </select>
+  </div>
 </div>
