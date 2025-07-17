@@ -6,71 +6,68 @@
     <button (click)="addProduct()">Agregar</button>
   </div>
 
-  <table class="products-container__table">
-    <thead>
-      <tr>
-        <th>Logo</th>
-        <th>Nombre del producto</th>
-        <th>
-          Descripción
-          <span class="material-symbols-outlined">info</span>
-        </th>
-        <th>
-          Fecha de liberación
-          <span class="material-symbols-outlined">info</span>
-        </th>
-        <th>
-          Fecha de reestructuración
-          <span class="material-symbols-outlined">info</span>
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of productsFiltered">
-        <td>
-          <img
-            [src]="product.logo"
-            alt="Logo"
-            class="products-container__logo"
-          />
-        </td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.date_release }}</td>
-        <td>{{ product.date_revision }}</td>
-        <td>
-          <div
-            class="products-container__dropdown"
-            [class.products-container__dropdown--open]="isMenuOpen"
-            (click)="toggleMenu()"
-          >
-            <span class="material-symbols-outlined">more_vert</span>
-            <div
-              class="products-container__dropdown-menu"
-              *ngIf="isMenuOpen"
-            >
-              <a (click)="editProduct(product)">Editar</a>
-              <br />
-              <a (click)="deleteProduct(product)">Eliminar</a>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="products-container__pagination">
-    <span class="products-container__pagination-info">
-      {{ itemsPerPage }} Resultados
-    </span>
-    <select
-      [(ngModel)]="itemsPerPage"
-      (change)="itemsPerPageChange(itemsPerPage)"
-    >
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="15">15</option>
-    </select>
+  <div class="products-container__wrapper">
+    <table class="products-container__table">
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Nombre del producto</th>
+          <th>
+            Descripción
+            <span class="material-symbols-outlined">info</span>
+          </th>
+          <th>
+            Fecha de liberación
+            <span class="material-symbols-outlined">info</span>
+          </th>
+          <th>
+            Fecha de reestructuración
+            <span class="material-symbols-outlined">info</span>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(productsFiltered.length > 0){
+          @for(product of productsFiltered.slice(0, itemsPerPage); track product.id){
+            <tr>
+              <td>
+                <img [src]="product.logo" alt="Logo" class="products-container__logo" />
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.date_release }}</td>
+              <td>{{ product.date_revision }}</td>
+              <td>
+                <div class="products-container__dropdown" [class.products-container__dropdown--open]="isMenuOpen"
+                  (click)="toggleMenu()">
+                  <span class="material-symbols-outlined">more_vert</span>
+                  <div class="products-container__dropdown-menu" *ngIf="isMenuOpen">
+                    <a (click)="editProduct(product)">Editar</a>
+                    <br />
+                    <a (click)="deleteProduct(product)">Eliminar</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        } @else {
+          <tr>
+            <td colspan="6">No hay resultados</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  
+    <div class="products-container__pagination">
+      <span class="products-container__pagination-info">
+        {{ productsFiltered.slice(0, itemsPerPage).length }} Resultados
+      </span>
+      <select [(ngModel)]="itemsPerPage" >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+    </div>
   </div>
 </div>

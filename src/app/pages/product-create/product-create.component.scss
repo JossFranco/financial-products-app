@@ -7,6 +7,14 @@
     margin: 50px;
 }
 
+.productFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F4F6F9;
+}
+
 .productForm {
  
   width: 500px;
