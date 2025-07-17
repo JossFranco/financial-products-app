@@ -5,6 +5,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ProductService } from '../../services/product.service';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { CommonModule } from '@angular/common';
+import { CustomValidators } from '../../utils/custom.validator';
 
 @Component({
   selector: 'app-product-form',
@@ -27,16 +28,39 @@ export class ProductFormComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private customValidators: CustomValidators
   ) { }
 
   ngOnInit(): void {
+    this.setEditMode();
+    this.buildForm();
+    this.getProductInfo();
+    this.subscribeToDateRelease();
+  }
+
+  setEditMode() {
     this.productId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.productId;
     this.pageTitle = this.isEditMode ? 'Formulario de Edición' : 'Formulario de Registro';
+  }
 
-    this.buildForm();
+  buildForm() {
+    this.productForm = this.fb.group({
+      id: [
+        { value: '', disabled: this.isEditMode },
+        [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
+        [this.customValidators.idAlreadyExists()]
+      ],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      logo: ['', [Validators.required]],
+      date_release: ['', [Validators.required, this.customValidators.dateMinValidator()]],
+      date_revision: [{ value: '', disabled: true }],
+    });
+  }
 
+  getProductInfo() {
     if (this.isEditMode && this.productId) {
       this.productService.getProductById(this.productId).subscribe({
         next: (product) => {
@@ -58,7 +82,9 @@ export class ProductFormComponent implements OnInit {
         }
       });
     }
+  }
 
+  subscribeToDateRelease() {
     this.productForm.get('date_release')?.valueChanges.subscribe((date: string) => {
       if (date) {
         const release = new Date(date);
@@ -69,20 +95,6 @@ export class ProductFormComponent implements OnInit {
       } else {
         this.productForm.get('date_revision')?.setValue('');
       }
-    });
-  }
-
-  buildForm() {
-    this.productForm = this.fb.group({
-      id: [
-        { value: '', disabled: this.isEditMode },
-        [Validators.required, Validators.minLength(3), Validators.maxLength(10)]
-      ],
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-      logo: ['', [Validators.required]],
-      date_release: ['', [Validators.required]],
-      date_revision: [{ value: '', disabled: true }],
     });
   }
 
@@ -121,5 +133,4 @@ export class ProductFormComponent implements OnInit {
     this.productForm.reset();
   }
 
-  
 }

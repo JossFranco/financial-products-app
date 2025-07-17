@@ -65,6 +65,7 @@
   }
 
   &__button-reset {
+    width: 8rem;
     background: #e9ecf3;
     color: #0f265c;
     font-weight: bold;
@@ -81,6 +82,7 @@
   }
 
   &__button-send {
+    width: 8rem;
     background-color: #ffdd00;
     color: #0f265c;
     padding: 1.2rem 1.2rem;
@@ -92,6 +94,15 @@
 
     &:hover {
       background: #ffd100
+    }
+
+    &--disabled {
+      background: #fff199;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: #fff199;
+      } 
     }
   }
 

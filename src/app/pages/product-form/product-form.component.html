@@ -109,7 +109,7 @@
       <button class="productForm__button-reset" type="button" (click)="onReset()">
         Reiniciar
       </button>
-      <button class="productForm__button-send" type="button" (click)="onSubmit()">
+      <button class="productForm__button-send" type="button" (click)="onSubmit()" [ngClass]="{'productForm__button-send--disabled': productForm.invalid}" [disabled]="productForm.invalid">
         Enviar
       </button>
     </div>
