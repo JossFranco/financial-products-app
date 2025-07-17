@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../components/header/header.component';
 import { ProductService } from '../../services/product.service';
+import { ModalComponent } from '../../components/modal/modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [ReactiveFormsModule, HeaderComponent],
+  imports: [ReactiveFormsModule, HeaderComponent, ModalComponent, CommonModule],
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.scss'
 })
@@ -17,6 +19,10 @@ export class ProductFormComponent implements OnInit {
   productId: string | null = null;
   pageTitle: string = "";
 
+  modalOpen: boolean = false;
+  modalTitle: string = "";
+  modalContent: string = "";
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -25,34 +31,30 @@ export class ProductFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.productId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.productId;
     this.pageTitle = this.isEditMode ? 'Formulario de Edición' : 'Formulario de Registro';
 
-    this.productForm = this.fb.group({
-      id: [
-        { value: '', disabled: this.isEditMode },
-        [Validators.required, Validators.minLength(3), Validators.maxLength(10)]
-      ],
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-      logo: ['', [Validators.required]],
-      date_release: [''],
-      date_revision: [{ value: '', disabled: true }],
-    });
+    this.buildForm();
 
     if (this.isEditMode && this.productId) {
-      this.productService.getProductById(this.productId).subscribe(product => {
-        if (product) {
-          this.productForm.patchValue({
-            id: product.id,
-            name: product.name,
-            description: product.description,
-            logo: product.logo,
-            date_release: product.date_release,
-            date_revision: product.date_revision
-          });
+      this.productService.getProductById(this.productId).subscribe({
+        next: (product) => {
+          if (product) {
+            this.productForm.patchValue({
+              id: product.id,
+              name: product.name,
+              description: product.description,
+              logo: product.logo,
+              date_release: product.date_release,
+              date_revision: product.date_revision
+            });
+          }
+        },
+        error: () => {
+          this.modalTitle = "¡Ups algo salio mal!";
+          this.modalContent = "No pudimos obtener la información del producto. Por favor, intenta nuevamente más tarde o recarga la página.";
+          this.modalOpen = true;
         }
       });
     }
@@ -70,6 +72,20 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
+  buildForm() {
+    this.productForm = this.fb.group({
+      id: [
+        { value: '', disabled: this.isEditMode },
+        [Validators.required, Validators.minLength(3), Validators.maxLength(10)]
+      ],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      logo: ['', [Validators.required]],
+      date_release: ['', [Validators.required]],
+      date_revision: [{ value: '', disabled: true }],
+    });
+  }
+
   onSubmit() {
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched();
@@ -78,22 +94,24 @@ export class ProductFormComponent implements OnInit {
     const formValue = this.productForm.getRawValue();
     if (this.isEditMode && this.productId) {
       this.productService.updateProduct(this.productId, formValue).subscribe({
-        next: (response) => {
-          console.log('Producto actualizado con éxito:', response);
+        next: () => {
           this.router.navigate(['/']);
         },
-        error: (error) => {
-          console.error('Error al actualizar el producto:', error);
+        error: () => {
+          this.modalTitle = "¡Ups algo salio mal!";
+          this.modalContent = "No pudimos actualizar el producto. Por favor, intenta nuevamente más tarde.";
+          this.modalOpen = true;
         },
       });
     } else {
       this.productService.addProduct(formValue).subscribe({
-        next: (response) => {
-          console.log('Producto guardado con éxito:', response);
+        next: () => {
           this.router.navigate(['/']);
         },
-        error: (error) => {
-          console.error('Error al guardar el producto:', error);
+        error: () => {
+          this.modalTitle = "¡Ups algo salio mal!";
+          this.modalContent = "No pudimos guardar el producto. Por favor, intenta nuevamente más tarde.";
+          this.modalOpen = true;
         },
       });
     }
@@ -102,4 +120,6 @@ export class ProductFormComponent implements OnInit {
   onReset() {
     this.productForm.reset();
   }
+
+  
 }

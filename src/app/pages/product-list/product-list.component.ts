@@ -6,11 +6,12 @@ import { SearchComponent } from '../../components/search/search.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OptionsComponent } from '../../components/options/options.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [FormsModule, HeaderComponent, SearchComponent, OptionsComponent],
+  imports: [FormsModule, HeaderComponent, SearchComponent, OptionsComponent, ModalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -19,6 +20,10 @@ export class ProductListComponent {
   productsFiltered: Product[] = [];
   isMenuOpen: boolean = false;
   itemsPerPage: number = 5;
+
+  modalOpen: boolean = false;
+  modalTitle: string = "";
+  modalContent: string = "";
 
   constructor(
     private productService: ProductService, 
@@ -35,8 +40,10 @@ export class ProductListComponent {
         this.products = data;
         this.productsFiltered = data;
       },
-      error: (error) => {
-        console.error('Error fetching products:', error);
+      error: () => {
+        this.modalTitle = "¡Ups algo salio mal!";
+        this.modalContent = "No pudimos cargar los productos. Por favor, intenta nuevamente más tarde.";
+        this.modalOpen = true;
       },
     });
   }
