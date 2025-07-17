@@ -1,27 +1,29 @@
 import { Component } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
 import { ProductService } from '../../services/product.service';
-import { NgFor, NgIf } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { OptionsComponent } from '../../components/options/options.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule, HeaderComponent, SearchComponent],
+  imports: [FormsModule, HeaderComponent, SearchComponent, OptionsComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
   products: Product[] = [];
   productsFiltered: Product[] = [];
-  productsPaged: Product[] = [];
   isMenuOpen: boolean = false;
   itemsPerPage: number = 5;
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    private productService: ProductService, 
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -42,20 +44,9 @@ export class ProductListComponent {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+
   addProduct() {
-    this.isMenuOpen = false;
-   this.router.navigate(['add']);
-  }
-  editProduct(product: Product) {
-    console.log('Editar', product.id);
-    this.isMenuOpen = false;
-    this.router.navigate(['edit/:id', product.id]);
-  }
-
-  deleteProduct(product: Product) {
-    console.log('Eliminar', product);
-
-    this.isMenuOpen = false;
+    this.router.navigate(['add']);
   }
 
   onSearchTermChange(searchTerm: string) {
@@ -66,17 +57,5 @@ export class ProductListComponent {
     } else {
       this.productsFiltered = [...this.products];
     }
-   
   }
-
-itemsPerPageChange(itemsPerPage: number) {
-   this.itemsPerPage = Number(itemsPerPage);
-  this.pagination();
-  }
-  pagination(){
-  const filtered = this.productsFiltered;
-  if (filtered.length <= this.itemsPerPage) {
-  this.productsFiltered = filtered.slice(0, this.itemsPerPage);
-  }
-}
 }

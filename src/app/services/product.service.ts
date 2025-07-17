@@ -19,15 +19,15 @@ export class ProductService {
   );
   }
   getProductById(id: string) {
-    return this.http.get<Product>(`${this.apiUrl}/bp/products${id}`);
+    return this.http.get<Product>(`${this.apiUrl}/bp/products/${id}`);
   }
   addProduct(product: Product) {
     return this.http.post<Product>(`${this.apiUrl}/bp/products`, product);
   }
   updateProduct(id: string, product: Product) {
-    return this.http.put<Product>(`${this.apiUrl}/bp/products${id}`, product);
+    return this.http.put<Product>(`${this.apiUrl}/bp/products/${id}`, product);
   }
   deleteProduct(id: string) {
-    return this.http.delete(`${this.apiUrl}/bp/products${id}`);
+    return this.http.delete(`${this.apiUrl}/bp/products/${id}`);
   }
 }

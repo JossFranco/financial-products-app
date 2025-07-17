@@ -1,11 +1,9 @@
 <app-header></app-header>
-
 <div class="products-container">
   <div class="products-container__header">
     <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
     <button (click)="addProduct()">Agregar</button>
   </div>
-
   <div class="products-container__wrapper">
     <table class="products-container__table">
       <thead>
@@ -13,16 +11,22 @@
           <th>Logo</th>
           <th>Nombre del producto</th>
           <th>
-            Descripción
-            <span class="material-symbols-outlined">info</span>
+            <div class="products-container__center">
+              Descripción
+              <span class="material-symbols-outlined">info</span>
+            </div>
           </th>
           <th>
-            Fecha de liberación
-            <span class="material-symbols-outlined">info</span>
+            <div class="products-container__center">
+              Fecha de liberación
+              <span class="material-symbols-outlined">info</span>
+            </div>
           </th>
           <th>
-            Fecha de reestructuración
-            <span class="material-symbols-outlined">info</span>
+            <div class="products-container__center">
+              Fecha de reestructuración
+              <span class="material-symbols-outlined">info</span>
+            </div>
           </th>
           <th></th>
         </tr>
@@ -39,15 +43,7 @@
               <td>{{ product.date_release }}</td>
               <td>{{ product.date_revision }}</td>
               <td>
-                <div class="products-container__dropdown" [class.products-container__dropdown--open]="isMenuOpen"
-                  (click)="toggleMenu()">
-                  <span class="material-symbols-outlined">more_vert</span>
-                  <div class="products-container__dropdown-menu" *ngIf="isMenuOpen">
-                    <a (click)="editProduct(product)">Editar</a>
-                    <br />
-                    <a (click)="deleteProduct(product)">Eliminar</a>
-                  </div>
-                </div>
+                <app-options [productId]="product.id"></app-options>
               </td>
             </tr>
           }
@@ -58,7 +54,6 @@
         }
       </tbody>
     </table>
-  
     <div class="products-container__pagination">
       <span class="products-container__pagination-info">
         {{ productsFiltered.slice(0, itemsPerPage).length }} Resultados
