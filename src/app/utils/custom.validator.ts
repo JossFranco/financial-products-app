@@ -22,12 +22,8 @@ export class CustomValidators {
             if (!control.value) {
                 return null;
             }
-
-            // Convertir las fechas a formato YYYY-MM-DD
             const inputDateStr = new Date(control.value).toISOString().split('T')[0];
             const todayStr = new Date().toISOString().split('T')[0];
-
-            // Comparar las fechas como strings en formato YYYY-MM-DD
             return inputDateStr >= todayStr ? null : { dateInvalid: true };
         };
     }

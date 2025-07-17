@@ -35,7 +35,7 @@ export class ProductFormComponent implements OnInit {
   ngOnInit(): void {
     this.setEditMode();
     this.buildForm();
-    this.getProductInfo();
+    this.loadProductIfEditMode();
     this.subscribeToDateRelease();
   }
 
@@ -60,7 +60,7 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  getProductInfo() {
+  loadProductIfEditMode() {
     if (this.isEditMode && this.productId) {
       this.productService.getProductById(this.productId).subscribe({
         next: (product) => {
@@ -75,11 +75,7 @@ export class ProductFormComponent implements OnInit {
             });
           }
         },
-        error: () => {
-          this.modalTitle = "¡Ups algo salio mal!";
-          this.modalContent = "No pudimos obtener la información del producto. Por favor, intenta nuevamente más tarde o recarga la página.";
-          this.modalOpen = true;
-        }
+        error: () => this.showModalError("¡Ups algo salio mal!", "No pudimos obtener la información del producto. Por favor, intenta nuevamente más tarde o recarga la página.")
       });
     }
   }
@@ -106,31 +102,25 @@ export class ProductFormComponent implements OnInit {
     const formValue = this.productForm.getRawValue();
     if (this.isEditMode && this.productId) {
       this.productService.updateProduct(this.productId, formValue).subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        },
-        error: () => {
-          this.modalTitle = "¡Ups algo salio mal!";
-          this.modalContent = "No pudimos actualizar el producto. Por favor, intenta nuevamente más tarde.";
-          this.modalOpen = true;
-        },
+        next: () => this.router.navigate(['/']),
+        error: () => this.showModalError("¡Ups algo salio mal!", "No pudimos actualizar el producto. Por favor, intenta nuevamente más tarde."),
       });
     } else {
       this.productService.addProduct(formValue).subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        },
-        error: () => {
-          this.modalTitle = "¡Ups algo salio mal!";
-          this.modalContent = "No pudimos guardar el producto. Por favor, intenta nuevamente más tarde.";
-          this.modalOpen = true;
-        },
+        next: () => this.router.navigate(['/']),
+        error: () => this.showModalError("¡Ups algo salio mal!", "No pudimos guardar el producto. Por favor, intenta nuevamente más tarde."),
       });
     }
   }
 
   onReset() {
     this.productForm.reset();
+  }
+
+  showModalError(title: string, content: string) {
+    this.modalTitle = title;
+    this.modalContent = content;
+    this.modalOpen = true;
   }
 
 }
