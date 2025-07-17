@@ -20,7 +20,6 @@ export class ProductListComponent {
   productsPaged: Product[] = [];
   isMenuOpen: boolean = false;
   itemsPerPage: number = 5;
-  currentPage: number = 1;
 
   constructor(private productService: ProductService, private router: Router) {}
 
@@ -33,7 +32,6 @@ export class ProductListComponent {
       next: (data: Product[]) => {
         this.products = data;
         this.productsFiltered = data;
-        this.updatePagination();
       },
       error: (error) => {
         console.error('Error fetching products:', error);
@@ -68,19 +66,17 @@ export class ProductListComponent {
     } else {
       this.productsFiltered = [...this.products];
     }
-    this.currentPage = 1;
-    this.updatePagination();
+   
   }
 
-  updatePagination() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.productsPaged = this.productsFiltered.slice(startIndex, endIndex);
+itemsPerPageChange(itemsPerPage: number) {
+   this.itemsPerPage = Number(itemsPerPage);
+  this.pagination();
   }
-
-  changeItemsPerPage(value: number) {
-    this.itemsPerPage = value;
-    this.currentPage = 1;
-    this.updatePagination();
+  pagination(){
+  const filtered = this.productsFiltered;
+  if (filtered.length <= this.itemsPerPage) {
+  this.productsFiltered = filtered.slice(0, this.itemsPerPage);
   }
+}
 }

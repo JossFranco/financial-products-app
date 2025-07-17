@@ -1,11 +1,11 @@
 .products-container {
-    width: 100%;
-    background-color: #F4F6F9;
-    padding: 36px 28px 28px 28px;
-    box-sizing: border-box;
-    color: #051d55;
+  width: 100%;
+  background-color: #f4f6f9;
+  padding: 36px 28px;
+  box-sizing: border-box;
+  color: #051d55;
 
-&__header {
+  &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,63 +25,59 @@
       }
     }
   }
-&__table {
-  width: 100%;
-  background: #fff;
-  border-collapse: collapse;
-}
-&__logo {
+
+  &__table {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f0f4f8;
+      font-weight: bold;
+    }
+
+    tbody tr:hover {
+      background-color: #f9fafb;
+    }
+  }
+
+  &__logo {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
   }
-}
 
-  th,
-  td {
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid #ddd;
-    position: relative; 
-    font-size: 0.9rem;
-
-  }
-
-  th {
-    background: #f0f4f8;
-    font-weight: bold;
-  }
-
-
-
-  tbody tr:hover {
-    background-color: #f9fafb;
-  }
-
-
-  .action-cell {
+  &__dropdown {
     position: relative;
 
     .material-symbols-outlined {
       cursor: pointer;
       user-select: none;
+      font-size: 0.9rem;
     }
 
-    .dropdown-menu {
+    &-menu {
       position: absolute;
       top: 30px;
       right: 0;
       background: #fff;
       border: 1px solid #ddd;
       border-radius: 4px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       z-index: 100;
+      padding: 8px 0;
 
-      li {
+      a {
+        display: block;
         padding: 8px 16px;
         cursor: pointer;
         white-space: nowrap;
@@ -92,8 +88,13 @@
         }
       }
     }
-    .material-symbols-outlined{
-      font-size: 0.9rem;
-    }
   }
 
+  &__pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+}
