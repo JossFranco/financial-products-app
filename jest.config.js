@@ -1,22 +1,8 @@
 module.exports = {
-  preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testMatch: ['**/+(*.)+(spec).+(ts)'],
-transform: {
-  '^.+\\.(ts|js|html)$': [
-    'ts-jest',
-    {
-      tsconfig: 'tsconfig.spec.json',
-    },
-  ],
-},
-  moduleFileExtensions: ['ts', 'html', 'js', 'json'],
-  collectCoverage: true,
-  coverageDirectory: 'coverage',
-  coverageReporters: ['html', 'text-summary'],
-  globals: {
-  'ts-jest': {
-    tsconfig: 'tsconfig.spec.json',
+  preset: "jest-preset-angular",
+  globalSetup: "jest-preset-angular/global-setup",
+  transform: {
+    "^.+\\.(ts|js|html)$": "jest-preset-angular",
   },
-},
+  setupFiles: ["<rootDir>/jest.setup.js"],
 };
