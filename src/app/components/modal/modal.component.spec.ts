@@ -20,4 +20,16 @@ describe('ModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit event when confirmed', () => {
+    const confirmSpy = jest.spyOn(component.confirmClick, 'emit');
+    component.confirm();
+    expect(confirmSpy).toHaveBeenCalled();
+  });
+
+  it('should emit event when close', () => {
+    const closeSpy = jest.spyOn(component.cancelClick, 'emit');
+    component.close();
+    expect(closeSpy).toHaveBeenCalled();
+  });
 });

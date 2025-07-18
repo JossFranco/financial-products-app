@@ -46,7 +46,7 @@ export class OptionsComponent {
     this.modalOpen = false;
     this.productService.deleteProduct(this.product!.id).subscribe({
       next: () => {
-        this.router.navigate(['/'], { onSameUrlNavigation: 'reload' });
+        this.router.navigate(['']);
       },
       error: () => {
         this.modalTitle = "¡Ups algo salio mal!";
